@@ -1,1 +1,1 @@
-Access WydTools from here @ @ http://wydtools.appspot.com/
+Access WydTools from here http://wydtools.appspot.com/

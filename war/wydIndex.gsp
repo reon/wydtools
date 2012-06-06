@@ -1,2 +1,0 @@
-<strong>Welcome!</strong>
-

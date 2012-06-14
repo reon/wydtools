@@ -1,14 +1,25 @@
+<%
+def sesUser = session?.user
+%>
 <!doctype html>
-<html>
+<html ng-app>
 
 <head>
   	<title>WydTools - - ${request.title}</title>
+
   	<link rel="shortcut icon" href="images/gaelyk-small-favicon.png" type="image/png">
   	<link rel="icon" href="images/gaelyk-small-favicon.png" type="image/png">
+
+  	<script type="text/javascript" src="js/jquery-1.7.2.min.js" ></script>
+
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
   	<link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css" />
-  	<script type="text/javascript" src="js/jquery-1.7.2.min.js" ></script>
 	<script type="text/javascript" src="js/bootstrap.min.js" ></script>
+	
+	<link rel="stylesheet" type="text/css" href="css/jquery.noty.css"/>
+	<link rel="stylesheet" type="text/css" href="css/noty_theme_twitter.css"/>
+	<script type="text/javascript" src="js/jquery.noty.js"></script>
+  	
   	<style type="text/css">
     	body {
           padding-top: 60px;
@@ -19,41 +30,114 @@
       	}
   	</style>
 </head>
-
 <body>
    
 <div class="navbar navbar-fixed-top">
 <div class="navbar-inner">
 	<div class="container">
-		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-			 <span class="icon-bar"></span>
-			 <span class="icon-bar"></span>
-			 <span class="icon-bar"></span>
-		</a>
-		<a class="brand" href="/">WydTools</a>
-		<div class="nav-collapse">
-			<ul class="nav">
-				<li class="${request.servletPath == '/WEB-INF/pages/index.gtpl' ? 'active' : ''}">
-					<a href="/">Home</a>
-				</li>
-				<li class="">
-					<a href="webConsole.groovy">Web Console</a>
-				</li>
-				<li class="">
-					<a href="regexpConsole.groovy">Regexp Console</a>
-				</li>
-				<li class="">
-					<a href="networkConsole.groovy">Netowrk Console</a>
-				</li>
-			</ul>
-		</div>
+		<ul class="nav">
+			<li class="">
+				<a class="brand" href="/"><strong>WydTools</strong></a>
+			</li>
+			<li class="${request.view == 'wydIndex.gsp' ? 'active' : ''}">
+				<a href="wydIndex.groovy"><i class="icon-home icon-white"></i></a>
+			</li>
+			<li class="divider-vertical"></li>
+			<li class="${request.view == 'webConsole.gsp' ? 'active' : ''}">
+				<a href="webConsole.groovy">WebConsole</a>
+			</li>
+			<li class="${request.view == 'regexpConsole.gsp' ? 'active' : ''}">
+				<a href="regexpConsole.groovy">RegexpConsole</a>
+			</li>
+			<li class="${request.view == 'networkConsole.gsp' ? 'active' : ''}">
+				<a href="networkConsole.groovy">NetowrkConsole</a>
+			</li>
+			<li class="${request.view == 'commandLineFu.gsp' ? 'active' : ''}">
+				<a href="commandLineFu.groovy">CommandLineFu</a>
+			</li>
+			<li class="${request.view == 'instaCalc.gsp' ? 'active' : ''}">
+				<a href="instaCalc.groovy">InstaCalc</a>
+			</li>
+		</ul>
+		<% if(sesUser != null) { %>
+		<form class="navbar-search">
+			<input type="text" class="search-query" placeholder="Search">
+			<a href="#"><i class="icon-search icon-white"></i></a>
+		</form>
+		<ul class="nav">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					System&nbsp;<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="acmUser.groovy">Users</a></li>
+					<li><a href="wydAppConfig.groovy">App Config</a></li>
+					<li><a href="wydEcho.groovy">App Echo</a></li>
+		    	</ul>
+			</li>
+		</ul>	
+		<% } %>
+		<ul class="nav pull-right">
+		<% if(sesUser != null) { %>
+  			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-user icon-white"></i>&nbsp;<b>$sesUser.id</b>&nbsp;<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="wydProfile.groovy">Profile</a></li>
+					<li class="divider"></li>
+					<li><a href="wydLogout.groovy">Sign Out</a></li>
+			    </ul>
+			</li>
+		<% } else { %>
+			<li class="">
+				<a href="wydLogin.groovy">Sign In</a>
+			</li>
+		<% } %>
+			<!-- 
+			<li class="divider-vertical"></li>
+			-->
+			<li class="${request.view == 'wydAbout.gsp' ? 'active' : ''}">
+				<a href="wydAbout.groovy">About</a>
+			</li>
+		</ul>	
 	</div>
 </div>
 </div>
 
+<% 
+//include 'wydBreadcrumb.gsp'
+
+def atype = null, amsg = null
+if(request.warningMessage) {
+	atype = ''
+	amsg = '<storng>Warning : </storng> ' + request.warningMessage
+}
+if(request.infoMessage) {
+	atype = 'alert-info'
+	amsg = request.infoMessage
+}
+if(request.successMessage) {
+	atype = 'alert-success'
+	amsg = request.successMessage
+}
+if(request.errorMessage) {
+	atype = 'alert-error'
+	amsg = request.errorMessage
+}
+if(amsg != null) {
+%>
 <div class="container">
-	<% include request.view %>
+<div class="alert ${atype}">
+  <button class="close" data-dismiss="alert">×</button>
+  $amsg
 </div>
+</div>
+<%
+	}
+%>
+
+<% include request.view %>
 
 </body>
 </html>

@@ -6,6 +6,6 @@ if(user != null) {
 }
 session.invalidate()
 
-request.webMessage = WebMessage.createInformationMessage("'$user.id' successfully logged out...")
+request.webMessage = WebMessage.createInformationMessage("<b>'$user.id'</b> successfully logged out...")
 
 forward 'login.groovy'

@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import wyd.dto.WebMessage;
+
 public class WydServletFilter implements Filter {
 
 	private static final long serialVersionUID = 1L
@@ -66,13 +68,12 @@ public class WydServletFilter implements Filter {
 	FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request
 
-		this.messageIds.each { messageId ->
-			def message = req.getParameter(messageId)
-			req.setAttribute(messageId, message)
-			if(_log.isDebugEnabled()) {
-				_log.debug('Message = {}', message)
+		WebMessage webMessage = WebMessage.createMessage(req)
+		if (webMessage != null) {
+			request.setAttribute("webMessage", webMessage)
+			if (_log.isDebugEnabled()) {
+				_log.debug("WebMessage = {}", webMessage.toQueryString())
 			}
-			//System.out.println("Message = $message")
 		}
 
 		def callbackUrl = req.getParameter('callbackUrl')
@@ -92,7 +93,8 @@ public class WydServletFilter implements Filter {
 			ServletContext scontext = this.filterConfig.getServletContext()
 			RequestDispatcher rd = scontext.getRequestDispatcher(s)
 			s = "Please login to access this page '$uri'"
-			request.setAttribute('errorMessage', s)
+			request.setAttribute("webMessage",
+					WebMessage.createInformationMessage(s));
 			request.setAttribute('callbackUrl', uri)
 			rd.forward(request, response);
 			return

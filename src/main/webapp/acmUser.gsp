@@ -2,10 +2,14 @@
 
 <p align="right" class="pull-right">
 	<a class="btn btn-medium" href="acmUserCreateOrEdit.groovy">
-		&nbsp;<i class="icon-plus"></i>
-		&nbsp;Add&nbsp;&nbsp;&nbsp;&nbsp;
+		<i class="icon-plus"></i>
+		Add&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	</a>
 </p>
+
+</div>
+
+<div class="container">
 
 <form method="post" action="acmUserDisable.groovy">
 

@@ -14,7 +14,7 @@ if (user != null && user.password == params.password) {
 	session.userTimeZoneHour = s.substring(5, 7)
 	session.userTimeZoneMinute = s.substring(8, 10)
 	
-	rval = 'wydIndex.groovy?' + WebMessage.createErrorMessage("<b>$params.userId</b>!").toQueryString()
+	rval = 'wydIndex.groovy?' + WebMessage.createErrorMessage("<b>'$user.id'</b> successfully logged in...").toQueryString()
 }
 
 redirect rval

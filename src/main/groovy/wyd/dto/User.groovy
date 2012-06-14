@@ -1,12 +1,13 @@
-package wyd.domain.dto
+package wyd.dto
 
+import groovy.transform.Canonical
 import groovyx.gaelyk.datastore.Entity
 import groovyx.gaelyk.datastore.Key
 import groovyx.gaelyk.datastore.Unindexed
-import groovyx.gaelyk.datastore.Ignore
- 
+
+@Canonical
 @Entity(unindexed=false)
-public class User {
+public class User implements Serializable {
 
 	@Key
 	String id

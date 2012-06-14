@@ -2,8 +2,11 @@ package wyd.dto;
 
 import java.io.Serializable;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
+
 
 public class WebMessage implements Serializable, JSONAware {
 
@@ -45,10 +48,24 @@ public class WebMessage implements Serializable, JSONAware {
 		return webMessage;
 	}
 
-	public static WebMessage createMessage(String type, String msg) {
+	public static WebMessage createMessage(String tpe, String msg) {
 		WebMessage webMessage = new WebMessage();
-		webMessage.setType(type);
+		if(tpe == null) {
+			tpe = WebMessage.WARNING;
+		}
+		webMessage.setType(tpe);
 		webMessage.setValue(msg);
+		return webMessage;
+	}
+
+	public static WebMessage createMessage(HttpServletRequest req) {
+		WebMessage webMessage = null;
+		String webMessageValue = req.getParameter("webMessageValue");
+		if (webMessageValue != null) {
+			String webMessageType = req.getParameter("webMessageType");
+			webMessage = WebMessage.createMessage(webMessageType,
+					webMessageValue);
+		}
 		return webMessage;
 	}
 
@@ -73,17 +90,12 @@ public class WebMessage implements Serializable, JSONAware {
 	}
 
 	public String toQueryString() {
-		String qs = "warningMessage=";
+		StringBuilder qs = new StringBuilder("webMessageValue=");
+		qs.append(this.value);
+		qs.append("&webMessageType=");
+		qs.append(this.type);
 
-		if (this.type.equals(WebMessage.WARNING)) {
-			qs = "infoMessage=";
-		} else if (this.type.equals(WebMessage.SUCCESS)) {
-			qs = "successMessage=";
-		} else if (this.type.equals(WebMessage.ERROR)) {
-			qs = "errorMessage=";
-		}
-
-		return qs + this.value;
+		return qs.toString();
 	}
 
 	@Override

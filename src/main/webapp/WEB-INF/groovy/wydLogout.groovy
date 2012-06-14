@@ -1,3 +1,4 @@
+import wyd.dto.WebMessage
 
 def user = session.user
 if(user != null) {
@@ -5,7 +6,6 @@ if(user != null) {
 }
 session.invalidate()
 
-request.infoMessage = "'$user.id' successfully logged out..."
-forward 'login.groovy'
+request.webMessage = WebMessage.createInformationMessage("'$user.id' successfully logged out...")
 
-//redirect "login.groovy?infoMessage=Successfully logged out...";
+forward 'login.groovy'

@@ -1,4 +1,6 @@
 <%
+import wyd.dto.WebMessage
+
 def sesUser = session?.user
 %>
 <!doctype html>
@@ -108,29 +110,16 @@ def sesUser = session?.user
 <% 
 //include 'wydBreadcrumb.gsp'
 
-def atype = null, amsg = null
-if(request.warningMessage) {
-	atype = ''
-	amsg = '<storng>Warning : </storng> ' + request.warningMessage
+WebMessage webMessage = (WebMessage) request.webMessage
+if(webMessage != null && webMessage.type == WebMessage.WARNING) {
+	webMessage.value = "<storng>Warning : </storng> $webMessage.value"
 }
-if(request.infoMessage) {
-	atype = 'alert-info'
-	amsg = request.infoMessage
-}
-if(request.successMessage) {
-	atype = 'alert-success'
-	amsg = request.successMessage
-}
-if(request.errorMessage) {
-	atype = 'alert-error'
-	amsg = request.errorMessage
-}
-if(amsg != null) {
+if (webMessage != null) {
 %>
 <div class="container">
-<div class="alert ${atype}">
+<div class="alert ${webMessage.type}">
   <button class="close" data-dismiss="alert">×</button>
-  $amsg
+  $webMessage.value
 </div>
 </div>
 <%

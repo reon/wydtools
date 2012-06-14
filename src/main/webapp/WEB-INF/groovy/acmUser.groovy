@@ -1,4 +1,4 @@
-import wyd.domain.dto.User
+import wyd.dto.User
 
 request.users = User.findAll { sort desc by createdTime }
 

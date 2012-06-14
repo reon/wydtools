@@ -1,6 +1,7 @@
-import wyd.domain.dto.User
+import wyd.dto.User
+import wyd.dto.WebMessage
 
-def rval = 'wydLogin.groovy?errorMessage=Invalid login! Either User Id or Password may be wrong...'
+def rval = 'wydLogin.groovy?' + WebMessage.createErrorMessage('Invalid login! Either User Id or Password may be wrong...').toQueryString()
 
 User user = User.get(params.userId)
 if (user != null && user.password == params.password) {
@@ -13,7 +14,7 @@ if (user != null && user.password == params.password) {
 	session.userTimeZoneHour = s.substring(5, 7)
 	session.userTimeZoneMinute = s.substring(8, 10)
 	
-	rval = "wydIndex.groovy?successMessage=Welcome <b>$params.userId</b>!"
+	rval = 'wydIndex.groovy?' + WebMessage.createErrorMessage("<b>$params.userId</b>!").toQueryString()
 }
 
 redirect rval

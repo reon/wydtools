@@ -1,4 +1,4 @@
-import wyd.domain.dto.User
+import wyd.dto.User
 import com.google.appengine.api.datastore.Entity
 
 println """
@@ -42,27 +42,6 @@ if(user == null ) {
 }
 println user
 
-/*
-def entities = datastore.execute{
-	from AppConfigE
-	where id == lastTranscationShowingLimit
-	limit 1
-}
-
-Entity appconfig = null
-if(entities.size() == 0 ) {
-	appconfig = new Entity('AppConfigE')
-	appconfig.id = 'lastTranscationShowingLimit'
-	appconfig.value = 10
-	appconfig.createdTime = now
-	appconfig.updatedTime = now
-	appconfig.save()
-}
-else {
-	appconfig = entities[0]
-}
-println 'AppConfig - ' + appconfig.id
-*/
 println '------------------------------------------------------------------------------'
 println """
 </pre>

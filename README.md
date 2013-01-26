@@ -1,1 +1,2 @@
-Access WydTools from here http://wydtools.appspot.com/
+WydTools - [![Build Status](https://travis-ci.org/vteial/wydtools.png)](https://travis-ci.org/vteial/wydtools)
+=================
